@@ -9,7 +9,7 @@
 
 typedef struct SplayTree SplayTree;
 
-enum ChildType { root, left, right };
+enum TreeGender { root, left, right };
 
 
 
@@ -18,6 +18,7 @@ enum ChildType { root, left, right };
 SplayTree * splaytree_init();
 int splaytree_destroy(SplayTree * tree);
 int splaytree_splay(SplayTree * node);
+int splice(SplayTree * trunk, SplayTree * branch, enum TreeGender side);
 
 
 
@@ -26,11 +27,16 @@ int splaytree_splay(SplayTree * node);
 struct SplayTree
 {
 	
-	SplayTree * leftChild;
-	SplayTree * rightChild;
+	SplayTree * leftTree;
+	int sizeLeft;
+	
+	SplayTree * rightTree;
+	int sizeRight;
+	
+	int size;
 	
 	SplayTree * parent;
-	enum ChildType childType;
+	enum TreeGender gender;
 	
 	int key;
 	
