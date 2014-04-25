@@ -1,7 +1,7 @@
-#include <SplayTree.h>
+#include <Tree.h>
 #include "test.h"
 
-#define MODULE "SplayTree.c"
+#define MODULE "Tree.c"
 
 int main(void)
 {

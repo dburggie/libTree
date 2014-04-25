@@ -1,6 +1,6 @@
 # Compilation Settings
 CINC = -I ./include
-CDEF = -DSPLAYTREE_DEBUG
+CDEF = -DTREE_DEBUG
 CFLAGS = -Wall
 COPT = ${CFLAGS} ${CDEF} ${CINC}
 CC = gcc ${COPT}
@@ -9,10 +9,10 @@ CC = gcc ${COPT}
 
 # Targets
 DIR = ./build
-HDR = ./include/SplayTree.h
-OBJ = ${DIR}/SplayTree.o
-TOBJ = ${DIR}/testSplayTree.o
-TEXE = ${DIR}/testSplayTree.x
+HDR = ./include/Tree.h
+OBJ = ${DIR}/Tree.o
+TOBJ = ${DIR}/testTree.o
+TEXE = ${DIR}/testTree.x
 
 
 
@@ -27,7 +27,7 @@ ${DIR}:
 
 
 
-${DIR}/SplayTree.o: src/SplayTree.c ${HDR}
+${DIR}/Tree.o: src/Tree.c ${HDR}
 	${CC} -c -o $@ $<
 
 
@@ -45,19 +45,19 @@ clean:
 
 test: ${DIR} ${TEXE}
 	@echo
-	@echo "running SplayTree tests:"
+	@echo "running Tree tests:"
 	@echo
-	@./${DIR}/testSplayTree.x
+	@./${DIR}/testTree.x
 	@echo
 
 
 
-${DIR}/testSplayTree.x: ${DIR}/testSplayTree.o ${OBJ}
+${DIR}/testTree.x: ${DIR}/testTree.o ${OBJ}
 	${CC} -o $@ $^
 
 
 
-${DIR}/testSplayTree.o: test/testSplayTree.c test/test.h ${HDR}
+${DIR}/testTree.o: test/testTree.c test/test.h ${HDR}
 	${CC} -c -o $@ $<
 
 

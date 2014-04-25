@@ -1,34 +1,39 @@
-#include <SplayTree.h>
+#include <Tree.h>
 
-
+#define MAX(x,y) (x > y) ? x : y
+#define MIN(x,y) (x < y) ? x : y
 
 
 // ############### Private Method Prototypes ################
 
-static int recursiveDestroy(SplayTree * self);
-static void splayLeft(SplayTree * node);
-static void splayRight(SplayTree * node);
-static int prune(SplayTree * tree, enum TreeGender branch);
+static int recursiveDestroy(Tree * self);
+static void rotateLeft(Tree * node);
+static void rotateRight(Tree * node);
+static int prune(Tree * tree, enum TreeGender branch);
+static int updateStats(Tree * tree);
 
 
 
 // ############### Public Method Definitions ###############
 
-SplayTree * splaytree_init()
+Tree * tree_init()
 {
-	SplayTree * tree = (SplayTree *) malloc(sizeof(SplayTree));
+	Tree * tree = (Tree *) malloc(sizeof(Tree));
 	
 	if (!tree) return NULL;
 	
 	//initialize left sub-tree
 	tree->leftTree = NULL;
 	tree->sizeLeft = 0;
+	tree->depthLeft = 0;
 	
 	//initialize right sub-tree
 	tree->rightTree = NULL;
 	tree->sizeRight = 0;
+	tree->depthRight = 0;
 	
 	tree->size = 1;
+	tree->depth = 0;
 	
 	tree->parent = NULL;
 	tree->gender = root;
@@ -36,7 +41,7 @@ SplayTree * splaytree_init()
 	return tree;
 }
 
-int splaytree_destroy(SplayTree * tree)
+int tree_destroy(Tree * tree)
 {
 	if (!tree) return 1;
 	
@@ -47,7 +52,7 @@ int splaytree_destroy(SplayTree * tree)
 }
 
 
-int splaytree_splay(SplayTree * node)
+int tree_splay(Tree * node)
 {
 	if (!node) { return 1; }
 	
@@ -61,12 +66,12 @@ int splaytree_splay(SplayTree * node)
 	switch (node->gender) {
 		
 		case left:
-			splayLeft(node);
-			return splaytree_splay(node);
+			rotateLeft(node);
+			return tree_splay(node);
 		
 		case right:
-			splayRight(node);
-			return splaytree_splay(node);
+			rotateRight(node);
+			return tree_splay(node);
 		
 		default:
 			return 1;
@@ -75,7 +80,7 @@ int splaytree_splay(SplayTree * node)
 
 
 
-int splice(SplayTree * trunk, SplayTree * branch, enum TreeGender side)
+int tree_splice(Tree * trunk, Tree * branch, enum TreeGender side)
 {
 	
 	//handle a null trunk
@@ -83,9 +88,7 @@ int splice(SplayTree * trunk, SplayTree * branch, enum TreeGender side)
 	{
 		if (!branch || side != root) { return 1; }
 		
-		branch->parent = NULL;
-		branch->gender = root;
-		return 0;
+		return prune(branch->parent, branch->gender);
 	}
 	
 	//handle last true error case
@@ -114,7 +117,7 @@ int splice(SplayTree * trunk, SplayTree * branch, enum TreeGender side)
 	}
 	
 	//splice trunk onto branch and clean up tree sizes
-	trunk->size = 1 + trunk->sizeLeft + trunk->sizeRight;
+	updateStats(trunk);
 	branch->parent = trunk;
 	branch->gender = side;
 	
@@ -126,7 +129,7 @@ int splice(SplayTree * trunk, SplayTree * branch, enum TreeGender side)
 
 // ############### Private Method Definitions ###############
 
-static int recursiveDestroy(SplayTree * self)
+static int recursiveDestroy(Tree * self)
 {
 	
 	int errors = 0;
@@ -149,40 +152,40 @@ static int recursiveDestroy(SplayTree * self)
 
 
 
-static void splayLeft(SplayTree * node)
+static void rotateLeft(Tree * node)
 {
 	
-	SplayTree * branch = node->leftTree;
-	SplayTree * parent = node->parent;
-	SplayTree * grandparent = parent->parent;
+	Tree * branch = node->leftTree;
+	Tree * parent = node->parent;
+	Tree * grandparent = parent->parent;
 	enum TreeGender parentgender = parent->gender;
 	
-	splice(parent, branch, right);
-	splice(node, parent, left);
-	splice(grandparent, node, parentgender);
+	tree_splice(parent, branch, right);
+	tree_splice(node, parent, left);
+	tree_splice(grandparent, node, parentgender);
 	
 }
 
 
 
-static void splayRight(SplayTree * node)
+static void rotateRight(Tree * node)
 {
 	
-	SplayTree * branch = node->leftTree;
-	SplayTree * parent = node->parent;
-	SplayTree * grandparent = parent->parent;
+	Tree * branch = node->leftTree;
+	Tree * parent = node->parent;
+	Tree * grandparent = parent->parent;
 	enum TreeGender parentgender = parent->gender;
 	
-	splice(parent, branch, left);
-	splice(node, parent, right);
-	splice(grandparent, node, parentgender);
+	tree_splice(parent, branch, left);
+	tree_splice(node, parent, right);
+	tree_splice(grandparent, node, parentgender);
 	
 }
 
 
 
 
-static int prune(SplayTree * tree, enum TreeGender branch)
+static int prune(Tree * tree, enum TreeGender branch)
 {
 	
 	if (!tree)
@@ -199,18 +202,73 @@ static int prune(SplayTree * tree, enum TreeGender branch)
 			tree->leftTree = NULL;
 			tree->sizeLeft = 0;
 			tree->size = 1 + tree->sizeRight;
+			
+			if (tree->depthLeft > tree->depthRight)
+			{
+				tree->depth = 1 + tree->depthRight;
+			}
+			
+			tree->depthLeft = 0;
 			return 0;
 		
 		case right:
 			tree->rightTree = NULL;
 			tree->sizeRight = 0;
 			tree->size = 1 + tree->sizeLeft;
+			
+			if (tree->depthRight > tree->depthLeft)
+			{
+				tree->depth = 1 + tree->depthLeft;	
+			}
+			
+			tree->depthRight = 0;
 			return 0;
 		
 		default:
 			return 1;
 	}
 	
+}
+
+
+static int updateStats(Tree * tree)
+{
+	if (!tree) { return 1; }
+	
+	
+	
+	if (tree->leftTree)
+	{
+		tree->sizeLeft = tree->leftTree->size;
+		tree->depthLeft = tree->leftTree->depth;
+	}
+	
+	else
+	{
+		tree->sizeLeft = 0;
+		tree->depthLeft = 0;
+	}
+	
+	
+	
+	if (tree->rightTree)
+	{
+		tree->sizeRight = tree->rightTree->size;
+		tree->depthRight = tree->rightTree->depth;
+	}
+	
+	else
+	{
+		tree->sizeRight = 0;
+		tree->depthRight = 0;
+	}
+	
+	
+	
+	tree->depth = 1 + MAX(tree->depthLeft, tree->depthRight);
+	tree->size = 1 + tree->sizeLeft + tree->sizeRight;
+	
+	return 0;
 }
 
 

@@ -7,7 +7,7 @@
 
 // ############### Type Definitions ###############
 
-typedef struct SplayTree SplayTree;
+typedef struct Tree Tree;
 
 enum TreeGender { root, left, right };
 
@@ -15,27 +15,30 @@ enum TreeGender { root, left, right };
 
 // ############### Method Prototypes ###############
 
-SplayTree * splaytree_init();
-int splaytree_destroy(SplayTree * tree);
-int splaytree_splay(SplayTree * node);
-int splice(SplayTree * trunk, SplayTree * branch, enum TreeGender side);
+Tree * tree_init();
+int tree_destroy(Tree * tree);
+int tree_splay(Tree * node);
+int tree_splice(Tree * trunk, Tree * branch, enum TreeGender side);
 
 
 
 // ############### Structure Definitions ###############
 
-struct SplayTree
+struct Tree
 {
 	
-	SplayTree * leftTree;
+	Tree * leftTree;
 	int sizeLeft;
+	int depthLeft;
 	
-	SplayTree * rightTree;
+	Tree * rightTree;
 	int sizeRight;
+	int depthRight;
 	
 	int size;
+	int depth;
 	
-	SplayTree * parent;
+	Tree * parent;
 	enum TreeGender gender;
 	
 	int key;
