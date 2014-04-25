@@ -10,6 +10,8 @@
 typedef struct Node Node;
 typedef Node * Tree;
 
+typedef enum TreeGender TreeGender;
+
 enum TreeGender { root, left, right };
 
 
@@ -19,7 +21,7 @@ enum TreeGender { root, left, right };
 Tree tree_init();
 int tree_destroy(Tree tree); //frees this node and both subtrees
 int tree_splay(Tree node); //if success, node will be the tree root
-int tree_splice(Tree trunk, Tree branch, enum TreeGender side);
+int tree_splice(Tree trunk, Tree branch, TreeGender side);
 
 Tree tree_getByIndex(Tree root, int index);
 Tree tree_insertByIndex(Tree root, Tree node, int index);
@@ -46,7 +48,7 @@ struct Node
 	int depth; //maximum depth of this tree
 	
 	Tree parent; //points to parent node, if any
-	enum TreeGender gender; //flags node as a root or a left or right subtree
+	TreeGender gender; //flags node as a root or a left or right subtree
 	
 	int key; //if nodes are sorted by key, this is such a key
 	
