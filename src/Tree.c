@@ -9,7 +9,7 @@
 static int recursiveDestroy(Tree self);
 static void rotateLeft(Tree node);
 static void rotateRight(Tree node);
-static int prune(Tree tree, TreeGender branch);
+static int prune(Tree tree, SubTreeType branch);
 static int updateStats(Tree tree);
 
 
@@ -80,7 +80,7 @@ int tree_splay(Tree node)
 
 
 
-int tree_splice(Tree trunk, Tree branch, TreeGender side)
+int tree_splice(Tree trunk, Tree branch, SubTreeType side)
 {
 	
 	//handle a null trunk
@@ -158,7 +158,7 @@ static void rotateLeft(Tree node)
 	Tree branch = node->leftTree;
 	Tree parent = node->parent;
 	Tree grandparent = parent->parent;
-	TreeGender parentgender = parent->gender;
+	SubTreeType parentgender = parent->gender;
 	
 	tree_splice(parent, branch, right);
 	tree_splice(node, parent, left);
@@ -174,7 +174,7 @@ static void rotateRight(Tree node)
 	Tree branch = node->leftTree;
 	Tree parent = node->parent;
 	Tree grandparent = parent->parent;
-	TreeGender parentgender = parent->gender;
+	SubTreeType parentgender = parent->gender;
 	
 	tree_splice(parent, branch, left);
 	tree_splice(node, parent, right);
@@ -185,7 +185,7 @@ static void rotateRight(Tree node)
 
 
 
-static int prune(Tree tree, TreeGender branch)
+static int prune(Tree tree, SubTreeType branch)
 {
 	
 	if (!tree)
