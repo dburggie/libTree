@@ -6,19 +6,19 @@
 
 // ############### Private Method Prototypes ################
 
-static int recursiveDestroy(Tree * self);
-static void rotateLeft(Tree * node);
-static void rotateRight(Tree * node);
-static int prune(Tree * tree, enum TreeGender branch);
-static int updateStats(Tree * tree);
+static int recursiveDestroy(Tree self);
+static void rotateLeft(Tree node);
+static void rotateRight(Tree node);
+static int prune(Tree tree, enum TreeGender branch);
+static int updateStats(Tree tree);
 
 
 
 // ############### Public Method Definitions ###############
 
-Tree * tree_init()
+Tree tree_init()
 {
-	Tree * tree = (Tree *) malloc(sizeof(Tree));
+	Tree tree = (Tree) malloc(sizeof(Node));
 	
 	if (!tree) return NULL;
 	
@@ -41,7 +41,7 @@ Tree * tree_init()
 	return tree;
 }
 
-int tree_destroy(Tree * tree)
+int tree_destroy(Tree tree)
 {
 	if (!tree) return 1;
 	
@@ -52,7 +52,7 @@ int tree_destroy(Tree * tree)
 }
 
 
-int tree_splay(Tree * node)
+int tree_splay(Tree node)
 {
 	if (!node) { return 1; }
 	
@@ -80,7 +80,7 @@ int tree_splay(Tree * node)
 
 
 
-int tree_splice(Tree * trunk, Tree * branch, enum TreeGender side)
+int tree_splice(Tree trunk, Tree branch, enum TreeGender side)
 {
 	
 	//handle a null trunk
@@ -129,7 +129,7 @@ int tree_splice(Tree * trunk, Tree * branch, enum TreeGender side)
 
 // ############### Private Method Definitions ###############
 
-static int recursiveDestroy(Tree * self)
+static int recursiveDestroy(Tree self)
 {
 	
 	int errors = 0;
@@ -152,12 +152,12 @@ static int recursiveDestroy(Tree * self)
 
 
 
-static void rotateLeft(Tree * node)
+static void rotateLeft(Tree node)
 {
 	
-	Tree * branch = node->leftTree;
-	Tree * parent = node->parent;
-	Tree * grandparent = parent->parent;
+	Tree branch = node->leftTree;
+	Tree parent = node->parent;
+	Tree grandparent = parent->parent;
 	enum TreeGender parentgender = parent->gender;
 	
 	tree_splice(parent, branch, right);
@@ -168,12 +168,12 @@ static void rotateLeft(Tree * node)
 
 
 
-static void rotateRight(Tree * node)
+static void rotateRight(Tree node)
 {
 	
-	Tree * branch = node->leftTree;
-	Tree * parent = node->parent;
-	Tree * grandparent = parent->parent;
+	Tree branch = node->leftTree;
+	Tree parent = node->parent;
+	Tree grandparent = parent->parent;
 	enum TreeGender parentgender = parent->gender;
 	
 	tree_splice(parent, branch, left);
@@ -185,7 +185,7 @@ static void rotateRight(Tree * node)
 
 
 
-static int prune(Tree * tree, enum TreeGender branch)
+static int prune(Tree tree, enum TreeGender branch)
 {
 	
 	if (!tree)
@@ -231,7 +231,7 @@ static int prune(Tree * tree, enum TreeGender branch)
 }
 
 
-static int updateStats(Tree * tree)
+static int updateStats(Tree tree)
 {
 	if (!tree) { return 1; }
 	

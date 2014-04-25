@@ -5,7 +5,7 @@
 
 #define FATAL(x,y) printf("%s failed critical test of %s.\n", x, y ); return 1
 
-int doTest(int test, char * methodName)
+int doTest(int test, const char * methodName)
 {
 	if (test)
 	{
@@ -20,7 +20,7 @@ int doTest(int test, char * methodName)
 	return test;
 }
 
-void report(char * module, int errors, int tests)
+void report(const char * module, int errors, int tests)
 {
 	if (errors)
 	{
