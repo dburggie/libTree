@@ -1,1 +1,58 @@
-nothing here yet. more to follow.
+libTree -- a C library containing a modified binary search tree data structure
+
+The Tree type this library defines differs from a typical binary search tree (BST) in a few ways. The notable features of the Tree structure are outlined below.
+
+1) The nodes in the tree do not have unique keys but are instead identified by their order within the tree. That is, if you consider the tree nodes as a linear array, each node is identified by it's index within the array.
+
+2) When searching the tree for a node, the programmer can optionally splay that node. The searched node will become the root of the tree, which should speed up searches of other nearby nodes. For more information on the pros and cons of this technique, research Splay Trees.
+
+3) A tree can be set to self-balancing mode: this slows down inserting nodes considerably, but guarantees O(log(n)) time node lookups during random access.
+
+4) A Tree instance can be balanced at any time. Balancing a non-root node will balance only the sub-tree rooted at that node.
+
+The functions defined by the library are outlined below.
+
+Tree tree_init() -- returns a new, empty tree node and returns it. Be sure to assign this to a Tree variable to avoid memory leaks.
+
+int tree_destroy(Tree tree) -- Frees the memory allocated to this tree and recursively traverses both the left and right sub-trees, freeing those as well. This method therefore destroys the entire sub-tree rooted at the argument. Returns zero for success, non-zero otherwise.
+
+
+int tree_splay(Tree root, Tree node) -- Roots the tree rooted at 'root' at 'node' instead. Returns 0 on success, non-zero return value implies no changes were made in the 'root' tree structure.
+
+int tree_splice(Tree trunk, Tree branch, SubTreeType side) -- Splices 'branch' tree onto 'trunk' tree as a subtree on the given side. This function prunes off whatever branch was formerly on that side of 'trunk'
+
+Tree tree_getByIndex(Tree root, int index) -- Looks up the node at the index of root and returns it. Returns NULL on fail.
+
+Tree tree_splayIndex(Tree root, int index) -- Looks up node at index within 'root' tree, then splays that node to root. If NULL is returned, then search failed and no changes to tree structure occured.
+
+Tree tree_insert(Tree root, Tree node, int index) -- Inserts 'node' into 'root' tree at the given index. All nodes formerly at or to the right of that index are thus shifted right one index.
+
+Tree tree_balance(Tree tree) -- balances the tree, returning the new root node for the newly balanced tree. The balanced tree is guaranteed to have O(log(n)) search time.
+
+
+
+
+// ############### Structure Definitions ###############
+
+struct Node
+{
+	
+	Tree leftTree;
+	int sizeLeft; //number of nodes in left subtree
+	int depthLeft; //maximum depth of left subtree
+	
+	Tree rightTree;
+	int sizeRight; //number of nodes in right subtree
+	int depthRight; //maximum depth of right subtree
+	
+	int size; //number of nodes in this tree
+	int depth; //maximum depth of this tree
+	
+	Tree parent; //points to parent node, if any
+	SubTreeType gender; //flags node as a root or a left or right subtree
+	
+	int key; //if nodes are sorted by key, this is such a key
+	
+};
+
+#endif
