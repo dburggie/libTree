@@ -31,28 +31,3 @@ Tree tree_balance(Tree tree) -- balances the tree, returning the new root node f
 
 
 
-
-// ############### Structure Definitions ###############
-
-struct Node
-{
-	
-	Tree leftTree;
-	int sizeLeft; //number of nodes in left subtree
-	int depthLeft; //maximum depth of left subtree
-	
-	Tree rightTree;
-	int sizeRight; //number of nodes in right subtree
-	int depthRight; //maximum depth of right subtree
-	
-	int size; //number of nodes in this tree
-	int depth; //maximum depth of this tree
-	
-	Tree parent; //points to parent node, if any
-	SubTreeType gender; //flags node as a root or a left or right subtree
-	
-	int key; //if nodes are sorted by key, this is such a key
-	
-};
-
-#endif
