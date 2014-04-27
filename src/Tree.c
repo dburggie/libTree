@@ -36,7 +36,7 @@ Tree tree_init()
 	tree->depth = 0;
 	
 	tree->parent = NULL;
-	tree->gender = root;
+	tree->gender = ROOT;
 	
 	return tree;
 }
@@ -57,7 +57,7 @@ int tree_splay(Tree node)
 	if (!node) { return 1; }
 	
 	//is our node already the root node?
-	if (node->gender == root) { return 0; }
+	if (node->gender == ROOT) { return 0; }
 	
 	 //this shouldn't ever be null, but safety first
 	if (!node->parent) { return 1; }
@@ -65,11 +65,11 @@ int tree_splay(Tree node)
 	//swap with parent, taking handedness into account
 	switch (node->gender) {
 		
-		case left:
+		case LEFT:
 			rotateLeft(node);
 			return tree_splay(node);
 		
-		case right:
+		case RIGHT:
 			rotateRight(node);
 			return tree_splay(node);
 		
@@ -86,13 +86,13 @@ int tree_splice(Tree trunk, Tree branch, SubTreeType side)
 	//handle a null trunk
 	if (!trunk )
 	{
-		if (!branch || side != root) { return 1; }
+		if (!branch || side != ROOT) { return 1; }
 		
 		return prune(branch->parent, branch->gender);
 	}
 	
 	//handle last true error case
-	if (side == root) { return 1; }
+	if (side == ROOT) { return 1; }
 	
 	//exit on prune if no branch
 	if (!branch) { return prune(trunk, side); }
@@ -104,11 +104,11 @@ int tree_splice(Tree trunk, Tree branch, SubTreeType side)
 	//splice branch onto trunk
 	switch (side)
 	{
-		case left:
+		case LEFT:
 			trunk->leftTree = branch;
 			trunk->sizeLeft = branch->size;
 			break;
-		case right:
+		case RIGHT:
 			trunk->rightTree = branch;
 			trunk->sizeRight = branch->size;
 			break;
@@ -133,6 +133,11 @@ static int recursiveDestroy(Tree self)
 {
 	
 	int errors = 0;
+
+    if (!self)
+    {
+        return 1;
+    }
 	
 	if (self->leftTree)
 	{
@@ -160,8 +165,8 @@ static void rotateLeft(Tree node)
 	Tree grandparent = parent->parent;
 	SubTreeType parentgender = parent->gender;
 	
-	tree_splice(parent, branch, right);
-	tree_splice(node, parent, left);
+	tree_splice(parent, branch, RIGHT);
+	tree_splice(node, parent, LEFT);
 	tree_splice(grandparent, node, parentgender);
 	
 }
@@ -176,8 +181,8 @@ static void rotateRight(Tree node)
 	Tree grandparent = parent->parent;
 	SubTreeType parentgender = parent->gender;
 	
-	tree_splice(parent, branch, left);
-	tree_splice(node, parent, right);
+	tree_splice(parent, branch, LEFT);
+	tree_splice(node, parent, RIGHT);
 	tree_splice(grandparent, node, parentgender);
 	
 }
@@ -190,15 +195,15 @@ static int prune(Tree tree, SubTreeType branch)
 	
 	if (!tree)
 	{
-		return (branch == root);
+		return (branch == ROOT);
 	}
 	
 	switch (branch)
 	{
-		case root:
+		case ROOT:
 			return 1;
 		
-		case left:
+		case LEFT:
 			tree->leftTree = NULL;
 			tree->sizeLeft = 0;
 			tree->size = 1 + tree->sizeRight;
@@ -211,7 +216,7 @@ static int prune(Tree tree, SubTreeType branch)
 			tree->depthLeft = 0;
 			return 0;
 		
-		case right:
+		case RIGHT:
 			tree->rightTree = NULL;
 			tree->sizeRight = 0;
 			tree->size = 1 + tree->sizeLeft;

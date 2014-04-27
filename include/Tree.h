@@ -12,7 +12,7 @@ typedef Node * Tree;
 
 typedef enum SubTreeType SubTreeType;
 
-enum SubTreeType { root, left, right };
+enum SubTreeType { ROOT, LEFT, RIGHT };
 
 
 
