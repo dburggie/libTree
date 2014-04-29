@@ -4,9 +4,11 @@
 #include <stdio.h>
 
 #define FATAL(x,y) printf("%s failed critical test of %s.\n", x, y ); return 1
+int testCount = 0;
 
 int doTest(int test, const char * methodName)
 {
+	testCount++;
 	if (test)
 	{
 		printf("failure during test of %s\n", methodName);

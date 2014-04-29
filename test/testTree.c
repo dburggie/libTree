@@ -5,16 +5,15 @@ const char * module = "Tree.c";
 
 int testInit(int n);
 int testDestroy(int n);
+int testSplice(int n);
 
 int main(void)
 {
 	int testCount = 0, error = 0;
 	
     error += doTest(testInit(100), "tree_init()");
-	testCount++;
-    
 	error += doTest(testDestroy(100), "tree_destroy()");
-    testCount++;
+    error += doTest(testSplice(100), "tree_splice()");
 
 	report(module, error, testCount);
 	
@@ -68,6 +67,36 @@ int testDestroy(int n)
     }
 
     return errors;
+}
+
+int testSplice(int n)
+{
+	
+	int errors = 0, i, j;
+	
+	Tree t, u;
+	
+	for (i = 0; i < n; i++)
+	{
+		t = tree_init();
+		u = tree_init();
+		
+		if (tree_splice(t,u, LEFT))
+		{
+			errors++;
+		}
+		
+		if (t->leftTree != u)
+		{
+			errors++;
+		}
+		
+		tree_destroy(t);
+	}
+	
+	
+	return errors;
+	
 }
 
 
