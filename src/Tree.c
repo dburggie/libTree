@@ -1,7 +1,7 @@
 #include <Tree.h>
 
-#define MAX(x,y) (x > y) ? x : y
-#define MIN(x,y) (x < y) ? x : y
+#define MAX(x,y) ( (x > y) ? x : y )
+#define MIN(x,y) ( (x < y) ? x : y )
 
 
 // ############### Private Method Prototypes ################
@@ -11,6 +11,7 @@ static void rotateLeft(Tree node);
 static void rotateRight(Tree node);
 static int prune(Tree tree, SubTreeType branch);
 static int updateStats(Tree tree);
+static int buildSubTree(Tree trunk, int size);
 
 
 
@@ -33,7 +34,7 @@ Tree tree_init()
 	tree->depthRight = 0;
 	
 	tree->size = 1;
-	tree->depth = 0;
+	tree->depth = 1;
 	
 	tree->parent = NULL;
 	tree->gender = ROOT;
@@ -107,21 +108,48 @@ int tree_splice(Tree trunk, Tree branch, SubTreeType side)
 		case LEFT:
 			trunk->leftTree = branch;
 			trunk->sizeLeft = branch->size;
+			trunk->depthLeft = branch->depth;
 			break;
 		case RIGHT:
 			trunk->rightTree = branch;
 			trunk->sizeRight = branch->size;
+			trunk->depthRight = branch->depth;
 			break;
 		default:
 			return 1;
 	}
 	
 	//splice trunk onto branch and clean up tree sizes
-	updateStats(trunk);
+	trunk->size = 1 + trunk->sizeLeft + trunk->sizeRight;
+	trunk->depth = 1 + MAX(trunk->depthLeft, trunk->depthRight);
 	branch->parent = trunk;
 	branch->gender = side;
 	
 	return 0;
+	
+}
+
+
+
+
+Tree tree_build(int nodes)
+{
+	if (nodes < 1)
+	{
+		return NULL;
+	}
+	
+	Tree tree = tree_init();
+	if (!tree) return NULL;
+	
+	if (buildSubTree(tree, nodes))
+	{
+		tree_destroy(tree);
+		return NULL;
+	}
+	
+	return tree;
+	
 	
 }
 
@@ -277,4 +305,33 @@ static int updateStats(Tree tree)
 }
 
 
+
+
+static int buildSubTree(Tree trunk, int size)
+{
+	
+	if (size < 1) return 0;
+	size--;
+	int rightSize = size / 2;
+	int leftSize = size - rightSize;
+	
+	if (leftSize > 0)
+	{
+		Tree left = tree_init();
+		if (!left) return 1;
+		if (buildSubTree(left, leftSize)) return 1;
+		if (tree_splice(trunk, left, LEFT)) return 1;
+	}
+	
+	if (rightSize > 0)
+	{
+		Tree right = tree_init();
+		if ( !right ) return 1;
+		if ( buildSubTree(right, rightSize) ) return 1;
+		if ( tree_splice(trunk, right, RIGHT) ) return 1;
+	}
+	
+	return 0;
+	
+}
 

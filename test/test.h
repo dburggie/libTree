@@ -6,6 +6,11 @@
 #define FATAL(x,y) printf("%s failed critical test of %s.\n", x, y ); return 1
 int testCount = 0;
 
+void testSuiteInit()
+{
+	srand(time(NULL));
+}
+
 int doTest(int test, const char * methodName)
 {
 	testCount++;
@@ -22,16 +27,16 @@ int doTest(int test, const char * methodName)
 	return test;
 }
 
-void report(const char * module, int errors, int tests)
+void report(const char * module, int errors)
 {
 	if (errors)
 	{
-		printf("%s: FAILED %i OF %i TESTS\n", module, errors, tests);
+		printf("%s: FAILED %i OF %i TESTS\n", module, errors, testCount);
 	}
 	
 	else
 	{
-		printf("%s: passed all of %i tests\n", module, tests);
+		printf("%s: passed all of %i tests\n", module, testCount);
 	}
 }
 

@@ -2,6 +2,7 @@
 #define SPLAYTREE_H
 
 #include <stdlib.h>
+#include <time.h>
 
 
 
@@ -29,7 +30,7 @@ Tree tree_insertByIndex(Tree root, Tree node, int index);
 Tree tree_insertByKey(Tree root, Tree node);
 Tree tree_balance(Tree tree); //returns new subtree root, null on fail
 
-
+Tree tree_build(int nodes);
 
 
 // ############### Structure Definitions ###############
