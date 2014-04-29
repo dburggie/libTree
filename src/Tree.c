@@ -195,14 +195,14 @@ static int prune(Tree tree, SubTreeType branch)
 	
 	if (!tree)
 	{
-		return (branch == ROOT);
+		return (branch != ROOT);
 	}
 	
 	switch (branch)
 	{
 		case ROOT:
-			return 1;
-		
+			if (tree->gender == ROOT) { return 0; }
+			else { return prune(tree->parent, tree->gender); }
 		case LEFT:
 			tree->leftTree = NULL;
 			tree->sizeLeft = 0;
