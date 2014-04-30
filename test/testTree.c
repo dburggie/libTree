@@ -28,8 +28,8 @@ int main(void)
 	errors += doTest(testDestroy(100), "tree_destroy()");
 	
     errors += doTest(testSplice(100), "tree_splice()");
-	errors += doTest(testBuild(10,10), "tree_build()");
-	errors += doTest(testGetIndex(10,10), "tree_getByIndex()");
+	errors += doTest(testBuild(100,100), "tree_build()");
+	errors += doTest(testGetIndex(100,100), "tree_getByIndex()");
 	//errors += doTest(testSplay(2), "tree_splay()");
 	
 	report(module, errors);
