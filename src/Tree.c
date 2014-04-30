@@ -12,6 +12,7 @@ static void rotateRight(Tree node);
 static int prune(Tree tree, SubTreeType branch);
 static int updateStats(Tree tree);
 static int buildSubTree(Tree trunk, int size);
+static Tree getNodeAtIndex(Tree tree, int index);
 
 
 
@@ -150,6 +151,25 @@ Tree tree_build(int nodes)
 	
 	return tree;
 	
+	
+}
+
+
+/* Gets the node at the given index.
+ * Returns NULL if outside of range or error.
+ * If negative index, gets node at (treesize + index) instead.
+ */
+Tree tree_getByIndex(Tree root, int index)
+{
+	
+	//error case: index overflows tree
+	if (index >= root->size) { return NULL; }
+	
+	//negative index counts backwards from last node
+	if (index < 0) { return tree_getByIndex(root, root->size + index); }
+	
+	//return node using private recursive search function
+	return getNodeAtIndex(root, index);
 	
 }
 
@@ -332,6 +352,34 @@ static int buildSubTree(Tree trunk, int size)
 	}
 	
 	return 0;
+	
+}
+
+
+
+//recursively searches tree for the node at the given index
+static Tree getNodeAtIndex(Tree tree, int index)
+{
+	
+	if (!tree) { return NULL; }
+	
+	else if (index < tree->sizeLeft)
+	{
+		//index is in left sub-tree
+		return getNodeAtIndex(tree->leftTree, index);
+	}
+	
+	else if (index > tree->sizeLeft)
+	{
+		//node is in right sub-tree, decrement index by left tree size
+		return getNodeAtIndex( tree->rightTree, (index - tree->sizeLeft) );
+	}
+	
+	else
+	{
+		//index is not to left or right, is thus at this node.
+		return tree;
+	}
 	
 }
 
