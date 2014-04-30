@@ -31,12 +31,12 @@ void report(const char * module, int errors)
 {
 	if (errors)
 	{
-		printf("%s: FAILED %i OF %i TESTS\n", module, errors, testCount);
+		printf("%s: FAILED %i TESTS IN %i METHODS\n", module, errors, testCount);
 	}
 	
 	else
 	{
-		printf("%s: passed all of %i tests\n", module, testCount);
+		printf("%s: passed all tests of %i methods\n", module, testCount);
 	}
 }
 

@@ -12,6 +12,9 @@ int testInit(int n);
 int testDestroy(int n);
 int testSplice(int n);
 int testBuild(int n, int size);
+
+int testGetIndex(int n, int size);
+
 int testSplay(int n, int size);
 
 
@@ -26,6 +29,7 @@ int main(void)
 	
     errors += doTest(testSplice(100), "tree_splice()");
 	errors += doTest(testBuild(10,10), "tree_build()");
+	errors += doTest(testGetIndex(1,10), "tree_getByIndex()");
 	//errors += doTest(testSplay(2), "tree_splay()");
 	
 	report(module, errors);
@@ -177,6 +181,122 @@ int testBuild(int n, int size)
 	{
 		printf("ERRORS: was expecting size %i and depth %i.\n", size, depth);
 	}
+	
+	return errors;
+}
+
+
+
+
+int testGetIndex(int n, int size)
+{
+	int buildErrors = 0,
+	    lookupErrors = 0,
+	    underflowErrors = 0,
+	    matchErrors = 0,
+	    negoverflowErrors = 0,
+	    overflowErrors = 0;
+	
+	Tree treeRoot, uleaf, leaf, errleaf;
+	
+	int i, UNDEX, undex, index, ondex, ONDEX;
+	
+	for (i = 0; i < n; i++)
+	{
+		treeRoot = tree_build(size);
+		
+		if (treeRoot)
+		{
+			//perform tests
+			for (index = 0; index < size; index++)
+			{
+				UNDEX = index - 2 * size;
+				undex = index - size;
+				ondex = index + size;
+				ONDEX = index + 2 * size;
+				
+				errleaf = tree_getByIndex(treeRoot, UNDEX);
+				if (errleaf) { negoverflowErrors++; }
+				
+				errleaf = tree_getByIndex(treeRoot, ondex);
+				if (errleaf) { overflowErrors++; }
+				
+				errleaf = tree_getByIndex(treeRoot, ONDEX);
+				if (errleaf) { overflowErrors++; }
+				
+				uleaf = tree_getByIndex(treeRoot, undex);
+				leaf = tree_getByIndex(treeRoot, index);
+				
+				if (!uleaf) { underflowErrors++; }
+				if (!leaf) { lookupErrors++; }
+				
+				if (uleaf && leaf)
+				{
+					if (uleaf != leaf) { matchErrors++; }
+				}
+				
+			}
+			
+			tree_destroy(treeRoot);
+			
+		}
+		
+		else
+		{
+			buildErrors++;
+		}
+	}
+	
+	int errors = 0;
+	int nodes = n * size;
+	
+	if (buildErrors)
+	{
+		errors += buildErrors;
+		printf("tree_getByIndex(): %i tree build errors ", buildErrors);
+		printf("in %i builds.\n", n);
+	}
+	
+	if (negoverflowErrors)
+	{
+		errors += negoverflowErrors;
+		printf("tree_getByIndex(): ");
+		printf("%i negative overflow errors ", negoverflowErrors);
+		printf("in %i lookups\n", nodes);
+	}
+	
+	if (overflowErrors)
+	{
+		errors += overflowErrors;
+		printf("tree_getByIndex(): ");
+		printf("%i overflow errors ", overflowErrors);
+		printf("in %i lookups\n", 2 * nodes);
+	}
+	
+	if (underflowErrors)
+	{
+		errors += underflowErrors;
+		printf("tree_getByIndex(): ");
+		printf("%i negative index lookup errors ", underflowErrors);
+		printf("in %i lookups.\n", nodes);
+	}
+	
+	if (lookupErrors)
+	{
+		errors += lookupErrors;
+		printf("tree_getByIndex(): ");
+		printf("%i lookup errors ", lookupErrors);
+		printf("in %i lookups.\n", nodes);
+	}
+	
+	if (matchErrors)
+	{
+		errors += matchErrors;
+		printf("tree_getByIndex(): ");
+		printf("%i positive/negative index mismatch errors ", matchErrors);
+		printf("in %i lookups.\n", nodes);
+	}
+	
 	
 	return errors;
 }
