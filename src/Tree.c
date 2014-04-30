@@ -162,11 +162,16 @@ Tree tree_build(int nodes)
 Tree tree_getByIndex(Tree root, int index)
 {
 	
+	if (!root) { return NULL; }
+	
 	//error case: index overflows tree
-	if (index >= root->size) { return NULL; }
+	if (index >= root->size || index + root->size < 0) { return NULL; }
 	
 	//negative index counts backwards from last node
-	if (index < 0) { return tree_getByIndex(root, root->size + index); }
+	if (index < 0)
+	{
+		return getNodeAtIndex(root, root->size + index);
+	}
 	
 	//return node using private recursive search function
 	return getNodeAtIndex(root, index);
@@ -372,7 +377,7 @@ static Tree getNodeAtIndex(Tree tree, int index)
 	else if (index > tree->sizeLeft)
 	{
 		//node is in right sub-tree, decrement index by left tree size
-		return getNodeAtIndex( tree->rightTree, (index - tree->sizeLeft) );
+		return getNodeAtIndex( tree->rightTree, (index - 1 - tree->sizeLeft) );
 	}
 	
 	else

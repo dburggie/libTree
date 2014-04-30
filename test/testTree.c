@@ -29,7 +29,7 @@ int main(void)
 	
     errors += doTest(testSplice(100), "tree_splice()");
 	errors += doTest(testBuild(10,10), "tree_build()");
-	errors += doTest(testGetIndex(1,10), "tree_getByIndex()");
+	errors += doTest(testGetIndex(10,10), "tree_getByIndex()");
 	//errors += doTest(testSplay(2), "tree_splay()");
 	
 	report(module, errors);
@@ -201,6 +201,9 @@ int testGetIndex(int n, int size)
 	
 	int i, UNDEX, undex, index, ondex, ONDEX;
 	
+	int badNodes[size];
+	for (i = 0; i < size; i++) badNodes[i] = 0;
+	
 	for (i = 0; i < n; i++)
 	{
 		treeRoot = tree_build(size);
@@ -228,7 +231,10 @@ int testGetIndex(int n, int size)
 				leaf = tree_getByIndex(treeRoot, index);
 				
 				if (!uleaf) { underflowErrors++; }
-				if (!leaf) { lookupErrors++; }
+				if (!leaf) {
+					lookupErrors++;
+					badNodes[index]++;
+				}
 				
 				if (uleaf && leaf)
 				{
@@ -287,6 +293,15 @@ int testGetIndex(int n, int size)
 		printf("tree_getByIndex(): ");
 		printf("%i lookup errors ", lookupErrors);
 		printf("in %i lookups.\n", nodes);
+		printf("bad nodes (index:count):");
+		for (i = 0; i < size; i++)
+		{
+			if (badNodes[i])
+			{
+				printf(" (%i:%i)", i, badNodes[i]);
+			}
+		}
+		printf("\n");
 	}
 	
 	if (matchErrors)
