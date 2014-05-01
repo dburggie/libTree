@@ -2,6 +2,7 @@
 #define TEST_H
 
 #include <stdio.h>
+#include <time.h>
 
 #define FATAL(x,y) printf("%s failed critical test of %s.\n", x, y ); return 1
 int testCount = 0;

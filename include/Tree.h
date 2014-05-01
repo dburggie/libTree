@@ -2,7 +2,6 @@
 #define SPLAYTREE_H
 
 #include <stdlib.h>
-#include <time.h>
 
 
 

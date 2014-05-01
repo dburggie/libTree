@@ -53,12 +53,12 @@ test: ${DIR} ${TEXE}
 
 
 ${DIR}/testTree.x: ${DIR}/testTree.o ${OBJ}
-	${CC} -o $@ $^
+	${CC} -O0 -o $@ $^
 
 
 
 ${DIR}/testTree.o: test/testTree.c test/test.h ${HDR}
-	${CC} -c -o $@ $<
+	${CC} -O0 -c -o $@ $<
 
 
 

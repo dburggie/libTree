@@ -212,7 +212,6 @@ static int recursiveDestroy(Tree self)
 
 static void rotateLeft(Tree node)
 {
-	
 	Tree branch = node->leftTree;
 	Tree parent = node->parent;
 	Tree grandparent = parent->parent;
@@ -221,7 +220,6 @@ static void rotateLeft(Tree node)
 	tree_splice(parent, branch, RIGHT);
 	tree_splice(node, parent, LEFT);
 	tree_splice(grandparent, node, parentgender);
-	
 }
 
 
@@ -229,7 +227,7 @@ static void rotateLeft(Tree node)
 static void rotateRight(Tree node)
 {
 	
-	Tree branch = node->leftTree;
+	Tree branch = node->rightTree;
 	Tree parent = node->parent;
 	Tree grandparent = parent->parent;
 	SubTreeType parentgender = parent->gender;
@@ -254,32 +252,50 @@ static int prune(Tree tree, SubTreeType branch)
 	switch (branch)
 	{
 		case ROOT:
+			
 			if (tree->gender == ROOT) { return 0; }
 			else { return prune(tree->parent, tree->gender); }
-		case LEFT:
-			tree->leftTree = NULL;
-			tree->sizeLeft = 0;
-			tree->size = 1 + tree->sizeRight;
 			
-			if (tree->depthLeft > tree->depthRight)
+		case LEFT:
+			
+			if (tree->leftTree)
 			{
-				tree->depth = 1 + tree->depthRight;
+				tree->leftTree->gender = ROOT;
+				tree->leftTree->parent = NULL;
+				
+				tree->leftTree = NULL;
+				tree->sizeLeft = 0;
+				tree->size = 1 + tree->sizeRight;
+				
+				if (tree->depthLeft > tree->depthRight)
+				{
+					tree->depth = 1 + tree->depthRight;
+				}
+				
+				tree->depthLeft = 0;
 			}
 			
-			tree->depthLeft = 0;
 			return 0;
 		
 		case RIGHT:
-			tree->rightTree = NULL;
-			tree->sizeRight = 0;
-			tree->size = 1 + tree->sizeLeft;
 			
-			if (tree->depthRight > tree->depthLeft)
+			if (tree->rightTree)
 			{
-				tree->depth = 1 + tree->depthLeft;	
+				tree->rightTree->gender = ROOT;
+				tree->rightTree->parent = NULL;
+				
+				tree->rightTree = NULL;
+				tree->sizeRight = 0;
+				tree->size = 1 + tree->sizeLeft;
+				
+				if (tree->depthRight > tree->depthLeft)
+				{
+					tree->depth = 1 + tree->depthLeft;	
+				}
+				
+				tree->depthRight = 0;
 			}
 			
-			tree->depthRight = 0;
 			return 0;
 		
 		default:
