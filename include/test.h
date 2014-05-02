@@ -9,7 +9,7 @@
 
 int testInit(int n);
 int testDestroy(int n, int size);
-int testSplice(int n);
+int testSplice(int n, int size);
 int testBuild(int n, int size);
 int testGetIndex(int n, int size);
 int testSplay(int n, int size);

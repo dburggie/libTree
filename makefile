@@ -13,8 +13,9 @@ HDR = ./include/Tree.h
 OBJ = ${DIR}/Tree.o
 
 THDR = ${HDR} ./include/test.h
-TEST1 = ${DIR}/test.o ${DIR}/tree_init_test.o  ${DIR}/tree_destroy_test.o
-TOBJ = ${TEST1}
+TST1 = ${DIR}/test.o ${DIR}/tree_init_test.o  ${DIR}/tree_destroy_test.o
+TST2 = ${DIR}/tree_splice_test.o
+TOBJ = ${TST1} ${TST2}
 TEXE = ${DIR}/testTree.x
 
 
@@ -69,6 +70,8 @@ ${DIR}/tree_init_test.o: test/tree_init_test.c ${THDR}
 ${DIR}/tree_destroy_test.o: test/tree_destroy_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
+${DIR}/tree_splice_test.o: test/tree_splice_test.c ${THDR}
+	${CC} -O0 -c -o $@ $<
 
 
 
