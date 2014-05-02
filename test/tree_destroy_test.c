@@ -13,7 +13,7 @@ int testDestroy(int n, int size)
 	{
 		t = tree_build(size);
 		
-		CASE(!tree_destroy(NULL), nullErrors)
+		CASE(tree_destroy(NULL), nullErrors)
 		CASE(tree_destroy(t) != size, sizeErrors)
 		
 	}

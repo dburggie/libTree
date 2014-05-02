@@ -9,8 +9,10 @@ CC = gcc ${COPT}
 
 # Targets
 DIR = ./build
-HDR = ./include/Tree.h
-OBJ = ${DIR}/Tree.o
+HDR = ./include/Tree.h ./include/TreePrivate.h
+OBJ1 = ${DIR}/Tree.o ${DIR}/tree_build.o ${DIR}/tree_destroy.o
+OBJ2 = ${DIR}/tree_getByIndex.o ${DIR}/tree_splay.o ${DIR}/tree_splice.o
+OBJ = ${OBJ1} ${OBJ2}
 
 THDR = ${HDR} ./include/test.h
 TST1 = ${DIR}/test.o ${DIR}/tree_init_test.o  ${DIR}/tree_destroy_test.o
@@ -25,17 +27,8 @@ TEXE = ${DIR}/testTree.x
 
 all: ${DIR} ${OBJ}
 
-
-
 ${DIR}:
 	mkdir -p ${DIR}
-
-
-
-${DIR}/Tree.o: src/Tree.c ${HDR}
-	${CC} -c -o $@ $<
-
-
 
 clean:
 	@echo
@@ -43,6 +36,27 @@ clean:
 	rm -rf ${OBJ}
 	rm -rf ${TOBJ} ${TEXE}
 	@echo
+
+
+
+${DIR}/Tree.o: src/Tree.c ${HDR}
+	${CC} -c -o $@ $<
+
+${DIR}/tree_build.o: src/tree_build.c ${HDR}
+	${CC} -c -o $@ $<
+
+${DIR}/tree_destroy.o: src/tree_destroy.c ${HDR}
+	${CC} -c -o $@ $<
+
+${DIR}/tree_getByIndex.o: src/tree_getByIndex.c ${HDR}
+	${CC} -c -o $@ $<
+
+${DIR}/tree_splay.o: src/tree_splay.c ${HDR}
+	${CC} -c -o $@ $<
+
+${DIR}/tree_splice.o: src/tree_splice.c ${HDR}
+	${CC} -c -o $@ $<
+
 
 
 
@@ -54,8 +68,6 @@ test: ${DIR} ${TEXE}
 	@echo
 	@./${DIR}/testTree.x
 	@echo
-
-
 
 ${DIR}/testTree.x: ${TOBJ} ${OBJ}
 	${CC} -O0 -o $@ $^
