@@ -11,7 +11,10 @@ CC = gcc ${COPT}
 DIR = ./build
 HDR = ./include/Tree.h
 OBJ = ${DIR}/Tree.o
-TOBJ = ${DIR}/testTree.o
+
+THDR = ${HDR} ./include/test.h
+TEST1 = ${DIR}/test.o ${DIR}/tree_init_test.o  ${DIR}/tree_destroy_test.o
+TOBJ = ${TEST1}
 TEXE = ${DIR}/testTree.x
 
 
@@ -52,15 +55,19 @@ test: ${DIR} ${TEXE}
 
 
 
-${DIR}/testTree.x: ${DIR}/testTree.o ${OBJ}
+${DIR}/testTree.x: ${TOBJ} ${OBJ}
 	${CC} -O0 -o $@ $^
 
 
 
-${DIR}/testTree.o: test/testTree.c test/test.h ${HDR}
+${DIR}/test.o: test/test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
+${DIR}/tree_init_test.o: test/tree_init_test.c ${THDR}
+	${CC} -O0 -c -o $@ $<
 
+${DIR}/tree_destroy_test.o: test/tree_destroy_test.c ${THDR}
+	${CC} -O0 -c -o $@ $<
 
 
 
