@@ -18,8 +18,8 @@ int main(void)
 	errors += doTest(testInit(100), "tree_init()");
 	errors += doTest(testDestroy(100, 100), "tree_destroy()");
 	errors += doTest(testSplice(100, 100), "tree_splice()");
-
-	//errors += doTest(testBuild(100,100), "tree_build()");
+	errors += doTest(testBuild(100,100), "tree_build()");
+	
 	//errors += doTest(testGetIndex(100,100), "tree_getByIndex()");
 	//errors += doTest(testSplay(10,10), "tree_splay()");
 	
