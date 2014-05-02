@@ -10,7 +10,7 @@ int testGetIndex(int n, int size)
 	    negoverflowErrors = 0,
 	    overflowErrors = 0;
 	
-	Tree treeRoot, uleaf, leaf, errleaf;
+	Tree treeRoot, uleaf, leaf;
 	
 	int i, UNDEX, undex, index, ondex, ONDEX;
 	
@@ -20,6 +20,8 @@ int testGetIndex(int n, int size)
 	for (i = 0; i < n; i++)
 	{
 		treeRoot = tree_build(size);
+		
+		CASE( !treeRoot, buildErrors )
 		
 		if (treeRoot)
 		{
@@ -31,27 +33,20 @@ int testGetIndex(int n, int size)
 				ondex = index + size;
 				ONDEX = index + 2 * size;
 				
-				errleaf = tree_getByIndex(treeRoot, UNDEX);
-				if (errleaf) { negoverflowErrors++; }
-				
-				errleaf = tree_getByIndex(treeRoot, ondex);
-				if (errleaf) { overflowErrors++; }
-				
-				errleaf = tree_getByIndex(treeRoot, ONDEX);
-				if (errleaf) { overflowErrors++; }
+				CASE( tree_getByIndex(treeRoot, UNDEX), negoverflowErrors )
+				CASE( tree_getByIndex(treeRoot, ondex), overflowErrors )
+				CASE( tree_getByIndex(treeRoot, ONDEX), overflowErrors )
 				
 				uleaf = tree_getByIndex(treeRoot, undex);
 				leaf = tree_getByIndex(treeRoot, index);
 				
-				if (!uleaf) { underflowErrors++; }
-				if (!leaf) {
-					lookupErrors++;
-					badNodes[index]++;
-				}
+				CASE( !uleaf, underflowErrors )
+				CASE( !leaf, lookupErrors )
+				CASE( !leaf, badNodes[index] )
 				
 				if (uleaf && leaf)
 				{
-					if (uleaf != leaf) { matchErrors++; }
+					CASE( uleaf != leaf, matchErrors )
 				}
 				
 			}
@@ -59,71 +54,28 @@ int testGetIndex(int n, int size)
 			tree_destroy(treeRoot);
 			
 		}
-		
-		else
-		{
-			buildErrors++;
-		}
 	}
 	
 	int errors = 0;
-	int nodes = n * size;
 	
-	if (buildErrors)
-	{
-		errors += buildErrors;
-		printf("tree_getByIndex(): %i tree build errors ", buildErrors);
-		printf("in %i builds.\n", n);
-	}
+	errors += genReport(buildErrors,n, "tree_getByIndex(): tree build errors");
+	errors += genReport(negoverflowErrors,n, "tree_getByIndex(): negative overflow errors");
+	errors += genReport(overflowErrors,2*n, "tree_getByIndex(): overflow errors");
+	errors += genReport(underflowErrors,n, "tree_getByIndex(): underflow errors");
 	
-	if (negoverflowErrors)
-	{
-		errors += negoverflowErrors;
-		printf("tree_getByIndex(): ");
-		printf("%i negative overflow errors ", negoverflowErrors);
-		printf("in %i lookups\n", nodes);
-	}
-	
-	if (overflowErrors)
-	{
-		errors += overflowErrors;
-		printf("tree_getByIndex(): ");
-		printf("%i overflow errors ", overflowErrors);
-		printf("in %i lookups\n", 2 * nodes);
-	}
-	
-	if (underflowErrors)
-	{
-		errors += underflowErrors;
-		printf("tree_getByIndex(): ");
-		printf("%i negative index lookup errors ", underflowErrors);
-		printf("in %i lookups.\n", nodes);
-	}
-	
+	errors += genReport(lookupErrors,n, "tree_getByIndex(): lookup errors");
 	if (lookupErrors)
 	{
-		errors += lookupErrors;
-		printf("tree_getByIndex(): ");
-		printf("%i lookup errors ", lookupErrors);
-		printf("in %i lookups.\n", nodes);
-		printf("bad nodes (index:count):");
+		printf("    bad nodes (index:count):");
 		for (i = 0; i < size; i++)
 		{
-			if (badNodes[i])
-			{
-				printf(" (%i:%i)", i, badNodes[i]);
-			}
+			if (badNodes[i]) { printf(" (%i:%i)", i, badNodes[i]); }
 		}
 		printf("\n");
 	}
 	
-	if (matchErrors)
-	{
-		errors += matchErrors;
-		printf("tree_getByIndex(): ");
-		printf("%i positive/negative index mismatch errors ", matchErrors);
-		printf("in %i lookups.\n", nodes);
-	}
+	errors += genReport(matchErrors,n, "tree_getByIndex(): +/- lookup mismatch");
+	
 	
 	
 	return errors;
