@@ -8,7 +8,7 @@
 #define CASE(exp, var) if (exp) { var++; }
 
 int testInit(int n);
-int testDestroy(int n);
+int testDestroy(int n, int size);
 int testSplice(int n);
 int testBuild(int n, int size);
 int testGetIndex(int n, int size);

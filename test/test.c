@@ -16,7 +16,7 @@ int main(void)
 	int errors = 0;
 	
     errors += doTest(testInit(100), "tree_init()");
-	errors += doTest(testDestroy(100), "tree_destroy()");
+	errors += doTest(testDestroy(100, 100), "tree_destroy()");
 	
     //errors += doTest(testSplice(100), "tree_splice()");
 	//errors += doTest(testBuild(100,100), "tree_build()");
