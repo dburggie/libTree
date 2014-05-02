@@ -26,9 +26,13 @@ int testSplay(int n, int size)
 	for (i = 0; i < n; i++)
 	{
 		root = tree_build(size);
+		
+		CASE( !root, buildErrors )
+		
 		if (root)
 		{
 			
+			//label each node with it's index
 			for (index = 0; index < size; index++)
 			{
 				leaf = tree_getByIndex(root,index);
@@ -44,7 +48,6 @@ int testSplay(int n, int size)
 				tree_destroy(root);
 			}
 			
-			
 			else
 			{
 				
@@ -52,98 +55,40 @@ int testSplay(int n, int size)
 				
 				root = leaf;
 				
-				if (root->key != index)
-				{
-					matchErrors++;
-					badNodes[index]++;
-				}
+				CASE( root->key != index, matchErrors )
+				CASE( root->key != index, badNodes[index] )
 				
-				if (root->gender != ROOT || root->parent)
-				{
-					rootErrors++;
-				}
-				
-				if (root->sizeLeft != index)
-				{
-					leftSubTreeErrors++;
-				}
-				
-				if (root->sizeRight != size - 1 - index)
-				{
-					rightSubTreeErrors++;
-				}
+				CASE( root->gender != ROOT || root->parent, rootErrors )
+				CASE( root->sizeLeft != index, leftSubTreeErrors )
+				CASE( root->sizeRight != size - 1 - index, rightSubTreeErrors )
 				
 				tree_destroy(root);
 			}
 		}
-		
-		else
-		{
-			buildErrors++;
-		}
 	}
 	
-	if (buildErrors)
-	{
-		errors += buildErrors;
-		printf("tree_splay(): failed building tree ");
-		printf("%i of %i times\n", buildErrors, n);
-	}
-	
-	if (splayErrors)
-	{
-		errors += splayErrors;
-		printf("tree_splay(): returned null ");
-		printf("%i of %i times\n", splayErrors, n);
-	}
-	
+	errors += genReport(buildErrors,n,"tree_splay: build error");
+	errors += genReport(splayErrors,n,"tree_splay: splay fail");
+	errors += genReport(matchErrors,n,"tree_splay: splayed wrong node");
 	if (matchErrors)
 	{
-		errors += matchErrors;
-		printf("tree_splay(): splayed node not at correct index ");
-		printf("%i of %i times\n", matchErrors, n);
-		printf("bad nodes (index:count):");
+		printf("    bad splays (index:count):");
 		for (i = 0; i < size; i++)
 		{
-			if (badNodes[i])
-			{
-				printf(" (%i:%i)", i, badNodes[i]);
-			}
+			if (badNodes[i]) { printf(" (%i:%i)", i, badNodes[i]); }
 		}
 		printf("\n");
-		
 	}
-	
-	if (rootErrors)
-	{
-		errors += rootErrors++;
-		printf("tree_splay(): splayed node not properly set as root ");
-		printf("%i of %i times\n", rootErrors, n);
-	}
-	
-	if (leftSubTreeErrors)
-	{
-		errors += leftSubTreeErrors;
-		printf("tree_splay(): bad left sub-tree size after splay ");
-		printf("%i of %i times\n", leftSubTreeErrors, n);
-	}
-	
-	if (rightSubTreeErrors)
-	{
-		errors += rightSubTreeErrors;
-		printf("tree_splay(): bad right sub-tree size after splay ");
-		printf("%i of %i times\n", rightSubTreeErrors, n);
-	}
+	errors += genReport(rootErrors,n,"tree_splay: root parent not updated");
+	errors += genReport(leftSubTreeErrors,n,"tree_splay: bad left tree size");
+	errors += genReport(rightSubTreeErrors,n,"tree_splay: bad right tree size");
 	
 	if (errors)
 	{
-		printf("nodes splayed (index:count):");
+		printf("    nodes splayed (index:count):");
 		for (i = 0; i < size; i++)
 		{
-			if (splayedNodes[i])
-			{
-				printf(" (%i:%i)", i, splayedNodes[i]);
-			}
+			if (splayedNodes[i]) { printf(" (%i:%i)", i, splayedNodes[i]); }
 		}
 		printf("\n");
 	}
