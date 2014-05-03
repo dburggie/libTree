@@ -12,13 +12,15 @@ DIR = ./build
 HDR = ./include/Tree.h ./include/TreePrivate.h
 OBJ1 = ${DIR}/Tree.o ${DIR}/tree_build.o ${DIR}/tree_destroy.o
 OBJ2 = ${DIR}/tree_getByIndex.o ${DIR}/tree_splay.o ${DIR}/tree_splice.o
-OBJ = ${OBJ1} ${OBJ2}
+OBJ3 = ${DIR}/tree_splayIndex.o
+OBJ = ${OBJ1} ${OBJ2} ${OBJ3}
 
 THDR = ${HDR} ./include/test.h
 TST1 = ${DIR}/test.o ${DIR}/tree_init_test.o  ${DIR}/tree_destroy_test.o
 TST2 = ${DIR}/tree_splice_test.o ${DIR}/tree_build_test.o
 TST3 = ${DIR}/tree_getByIndex_test.o ${DIR}/tree_splay_test.o
-TOBJ = ${TST1} ${TST2} ${TST3}
+TST4 = ${DIR}/tree_splayIndex_test.o
+TOBJ = ${TST1} ${TST2} ${TST3} ${TST4}
 TEXE = ${DIR}/testTree.x
 
 
@@ -57,6 +59,8 @@ ${DIR}/tree_splay.o: src/tree_splay.c ${HDR}
 ${DIR}/tree_splice.o: src/tree_splice.c ${HDR}
 	${CC} -c -o $@ $<
 
+${DIR}/tree_splayIndex.o: src/tree_splayIndex.c ${HDR}
+	${CC} -c -o $@ $<
 
 
 
@@ -95,6 +99,8 @@ ${DIR}/tree_getByIndex_test.o: test/tree_getByIndex_test.c ${THDR}
 ${DIR}/tree_splay_test.o: test/tree_splay_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
+${DIR}/tree_splayIndex_test.o: test/tree_splayIndex_test.c ${THDR}
+	${CC} -O0 -c -o $@ $<
 
 
 

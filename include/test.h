@@ -13,6 +13,7 @@ int testSplice(int n, int size);
 int testBuild(int n, int size);
 int testGetIndex(int n, int size);
 int testSplay(int n, int size);
+int testSplayIndex(int n, int size);
 
 int genReport(int errors, int tests, const char * message);
 
