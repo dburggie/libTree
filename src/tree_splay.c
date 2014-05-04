@@ -23,15 +23,24 @@ int tree_splay(Tree node)
 	switch (node->gender) {
 		
 		case LEFT:
-			rotateLeft(node);
-			return tree_splay(node);
+			rotateRight(node);
+			break;
 		
 		case RIGHT:
-			rotateRight(node);
-			return tree_splay(node);
+			rotateLeft(node);
+			break;
 		
 		default:
 			return 1;
+	}
+	
+	if (node->gender == ROOT)
+	{
+		return 0;
+	}
+	else
+	{
+		return tree_splay(node);
 	}
 }
 
