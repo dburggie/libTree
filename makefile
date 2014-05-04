@@ -12,7 +12,7 @@ DIR = ./build
 HDR = ./include/Tree.h ./include/TreePrivate.h
 OBJ1 = ${DIR}/Tree.o ${DIR}/tree_build.o ${DIR}/tree_destroy.o
 OBJ2 = ${DIR}/tree_getByIndex.o ${DIR}/tree_splay.o ${DIR}/tree_splice.o
-OBJ3 = ${DIR}/tree_splayIndex.o
+OBJ3 = ${DIR}/tree_splayIndex.o ${DIR}/tree_insertByIndex.o
 OBJ = ${OBJ1} ${OBJ2} ${OBJ3}
 
 THDR = ${HDR} ./include/test.h
@@ -60,6 +60,9 @@ ${DIR}/tree_splice.o: src/tree_splice.c ${HDR}
 	${CC} -c -o $@ $<
 
 ${DIR}/tree_splayIndex.o: src/tree_splayIndex.c ${HDR}
+	${CC} -c -o $@ $<
+
+${DIR}/tree_insertByIndex.o: src/tree_insertByIndex.c ${HDR}
 	${CC} -c -o $@ $<
 
 

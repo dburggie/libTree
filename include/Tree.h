@@ -25,7 +25,7 @@ int tree_splice(Tree trunk, Tree branch, SubTreeType side);
 
 Tree tree_getByIndex(Tree root, int index);
 Tree tree_splayIndex(Tree root, int index); //splays and returns node at index
-Tree tree_insertByIndex(Tree root, Tree node, int index);
+int tree_insertByIndex(Tree root, Tree node, int index);
 Tree tree_insertByKey(Tree root, Tree node);
 Tree tree_balance(Tree tree); //returns new subtree root, null on fail
 
