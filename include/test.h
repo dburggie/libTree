@@ -12,6 +12,7 @@ int testDestroy(int n, int size);
 int testSplice(int n, int size);
 int testBuild(int n, int size);
 int testGetIndex(int n, int size);
+int testGetRoot(int n, int size);
 int testSplay(int n, int size);
 int testSplayIndex(int n, int size);
 
