@@ -21,7 +21,8 @@ TST1 = ${DIR}/test.o ${DIR}/tree_init_test.o  ${DIR}/tree_destroy_test.o
 TST2 = ${DIR}/tree_splice_test.o ${DIR}/tree_build_test.o
 TST3 = ${DIR}/tree_getByIndex_test.o ${DIR}/tree_splay_test.o
 TST4 = ${DIR}/tree_splayIndex_test.o ${DIR}/tree_getRoot_test.o
-TOBJ = ${TST1} ${TST2} ${TST3} ${TST4}
+TST5 = ${DIR}/tree_balance_test.o
+TOBJ = ${TST1} ${TST2} ${TST3} ${TST4} ${TST5}
 TEXE = ${DIR}/testTree.x
 
 
@@ -112,6 +113,11 @@ ${DIR}/tree_splayIndex_test.o: test/tree_splayIndex_test.c ${THDR}
 
 ${DIR}/tree_getRoot_test.o: test/tree_getRoot_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
+
+${DIR}/tree_balance_test.o: test/tree_balance_test.c ${THDR}
+	${CC} -O0 -c -o $@ $<
+
+
 
 
 
