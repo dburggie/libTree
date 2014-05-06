@@ -12,17 +12,19 @@ int testBalance(int n, int size)
 	int build = 0;
 	int splice = 0;
 	int nullErr = 0;
+	int trivial = 0;
 	int exec = 0;
 	int rootErr = 0;
 	int oldroot = 0;
 	int balance = 0;
 	
-	size--;
 	Tree root, leaf;
 	
 	for (i = 0; i < n; i++)
 	{
 		CASE( tree_balance(NULL), nullErr )
+		
+printf("handled null case\n");
 		
 		for (left = 0; left < size - 1; left++)
 		{
@@ -30,6 +32,7 @@ int testBalance(int n, int size)
 			
 			root = tree_init();
 			CASE( !root, init )
+			CASE( !tree_balance(root), trivial )
 			
 			leaf = tree_build(left);
 			CASE( left && !leaf, build )
@@ -59,6 +62,7 @@ int testBalance(int n, int size)
 	
 	errors += genReport(nullErr,n,"tree_balance(): bad handling of null arg");
 	errors += genReport(init,n*size,"tree_balance(): bad tree_init() call");
+	errors += genReport(trivial,n*size,"tree_balance(): bad trivial case");
 	errors += genReport(build,2*n*size,"tree_balance(): bad tree_build() call");
 	errors += genReport(splice,2*n*size,"tree_balance(): bad tree_splice() call");
 	errors += genReport(exec,n*size,"tree_balance(): bad return of NULL");

@@ -15,6 +15,7 @@ int testGetIndex(int n, int size);
 int testGetRoot(int n, int size);
 int testSplay(int n, int size);
 int testSplayIndex(int n, int size);
+int testBalance(int n, int size);
 
 int genReport(int errors, int tests, const char * message);
 

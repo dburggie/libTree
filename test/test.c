@@ -21,8 +21,9 @@ int main(void)
 	errors += doTest(testBuild(100,100), "tree_build()");
 	errors += doTest(testGetIndex(100,100), "tree_getByIndex()");
 	errors += doTest(testGetRoot(100,100), "tree_getRoot()");
-	errors += doTest(testSplay(100,10), "tree_splay()");
-	errors += doTest(testSplayIndex(100,10), "tree_splayIndex()");
+	errors += doTest(testSplay(100,100), "tree_splay()");
+	errors += doTest(testSplayIndex(100,100), "tree_splayIndex()");
+	errors += doTest(testBalance(1,100), "tree_balance()");
 	
 	report(module, errors);
 	

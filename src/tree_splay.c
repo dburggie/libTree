@@ -23,11 +23,11 @@ int tree_splay(Tree node)
 	switch (node->gender) {
 		
 		case LEFT:
-			rotateRight(node);
+			rotateLeft(node);
 			break;
 		
 		case RIGHT:
-			rotateLeft(node);
+			rotateRight(node);
 			break;
 		
 		default:
@@ -50,20 +50,6 @@ int tree_splay(Tree node)
 
 static void rotateLeft(Tree node)
 {
-	Tree branch = node->leftTree;
-	Tree parent = node->parent;
-	Tree grandparent = parent->parent;
-	SubTreeType parentgender = parent->gender;
-	
-	tree_splice(parent, branch, RIGHT);
-	tree_splice(node, parent, LEFT);
-	tree_splice(grandparent, node, parentgender);
-}
-
-
-
-static void rotateRight(Tree node)
-{
 	
 	Tree branch = node->rightTree;
 	Tree parent = node->parent;
@@ -74,6 +60,20 @@ static void rotateRight(Tree node)
 	tree_splice(node, parent, RIGHT);
 	tree_splice(grandparent, node, parentgender);
 	
+}
+
+
+
+static void rotateRight(Tree node)
+{
+	Tree branch = node->leftTree;
+	Tree parent = node->parent;
+	Tree grandparent = parent->parent;
+	SubTreeType parentgender = parent->gender;
+	
+	tree_splice(parent, branch, RIGHT);
+	tree_splice(node, parent, LEFT);
+	tree_splice(grandparent, node, parentgender);
 }
 
 
