@@ -24,8 +24,6 @@ int testBalance(int n, int size)
 	{
 		CASE( tree_balance(NULL), nullErr )
 		
-printf("handled null case\n");
-		
 		for (left = 0; left < size - 1; left++)
 		{
 			right = size - 1 - left;

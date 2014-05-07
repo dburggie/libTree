@@ -10,18 +10,18 @@ CC = gcc ${COPT}
 # Targets
 DIR = ./build
 HDR = ./include/Tree.h ./include/TreePrivate.h
-OBJ1 = ${DIR}/Tree.o ${DIR}/tree_build.o ${DIR}/tree_destroy.o
-OBJ2 = ${DIR}/tree_getByIndex.o ${DIR}/tree_splay.o ${DIR}/tree_splice.o
-OBJ3 = ${DIR}/tree_splayIndex.o ${DIR}/tree_insertByIndex.o
-OBJ4 = ${DIR}/tree_getRoot.o ${DIR}/tree_balance.o ${DIR}/tree_rotate.o
+OBJ1 = ${DIR}/Tree.o ${DIR}/build.o ${DIR}/destroy.o
+OBJ2 = ${DIR}/getByIndex.o ${DIR}/splay.o ${DIR}/splice.o
+OBJ3 = ${DIR}/splayIndex.o ${DIR}/insertByIndex.o
+OBJ4 = ${DIR}/getRoot.o ${DIR}/balance.o ${DIR}/rotate.o
 OBJ = ${OBJ1} ${OBJ2} ${OBJ3} ${OBJ4}
 
 THDR = ${HDR} ./include/test.h
-TST1 = ${DIR}/test.o ${DIR}/tree_init_test.o  ${DIR}/tree_destroy_test.o
-TST2 = ${DIR}/tree_splice_test.o ${DIR}/tree_build_test.o
-TST3 = ${DIR}/tree_getByIndex_test.o ${DIR}/tree_splay_test.o
-TST4 = ${DIR}/tree_splayIndex_test.o ${DIR}/tree_getRoot_test.o
-TST5 = ${DIR}/tree_balance_test.o
+TST1 = ${DIR}/test.o ${DIR}/init_test.o  ${DIR}/destroy_test.o
+TST2 = ${DIR}/splice_test.o ${DIR}/build_test.o
+TST3 = ${DIR}/getByIndex_test.o ${DIR}/splay_test.o
+TST4 = ${DIR}/splayIndex_test.o ${DIR}/getRoot_test.o
+TST5 = ${DIR}/balance_test.o
 TOBJ = ${TST1} ${TST2} ${TST3} ${TST4} ${TST5}
 TEXE = ${DIR}/testTree.x
 
@@ -46,34 +46,34 @@ clean:
 ${DIR}/Tree.o: src/Tree.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_build.o: src/tree_build.c ${HDR}
+${DIR}/build.o: src/build.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_destroy.o: src/tree_destroy.c ${HDR}
+${DIR}/destroy.o: src/destroy.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_getByIndex.o: src/tree_getByIndex.c ${HDR}
+${DIR}/getByIndex.o: src/getByIndex.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_splay.o: src/tree_splay.c ${HDR}
+${DIR}/splay.o: src/splay.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_splice.o: src/tree_splice.c ${HDR}
+${DIR}/splice.o: src/splice.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_splayIndex.o: src/tree_splayIndex.c ${HDR}
+${DIR}/splayIndex.o: src/splayIndex.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_insertByIndex.o: src/tree_insertByIndex.c ${HDR}
+${DIR}/insertByIndex.o: src/insertByIndex.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_getRoot.o: src/tree_getRoot.c ${HDR}
+${DIR}/getRoot.o: src/getRoot.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_balance.o: src/tree_balance.c ${HDR}
+${DIR}/balance.o: src/balance.c ${HDR}
 	${CC} -c -o $@ $<
 
-${DIR}/tree_rotate.o: src/tree_rotate.c ${HDR}
+${DIR}/rotate.o: src/rotate.c ${HDR}
 	${CC} -c -o $@ $<
 
 
@@ -96,31 +96,31 @@ ${DIR}/testTree.x: ${TOBJ} ${OBJ}
 ${DIR}/test.o: test/test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
-${DIR}/tree_init_test.o: test/tree_init_test.c ${THDR}
+${DIR}/init_test.o: test/init_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
-${DIR}/tree_destroy_test.o: test/tree_destroy_test.c ${THDR}
+${DIR}/destroy_test.o: test/destroy_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
-${DIR}/tree_splice_test.o: test/tree_splice_test.c ${THDR}
+${DIR}/splice_test.o: test/splice_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
-${DIR}/tree_build_test.o: test/tree_build_test.c ${THDR}
+${DIR}/build_test.o: test/build_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
-${DIR}/tree_getByIndex_test.o: test/tree_getByIndex_test.c ${THDR}
+${DIR}/getByIndex_test.o: test/getByIndex_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
-${DIR}/tree_splay_test.o: test/tree_splay_test.c ${THDR}
+${DIR}/splay_test.o: test/splay_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
-${DIR}/tree_splayIndex_test.o: test/tree_splayIndex_test.c ${THDR}
+${DIR}/splayIndex_test.o: test/splayIndex_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
-${DIR}/tree_getRoot_test.o: test/tree_getRoot_test.c ${THDR}
+${DIR}/getRoot_test.o: test/getRoot_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
-${DIR}/tree_balance_test.o: test/tree_balance_test.c ${THDR}
+${DIR}/balance_test.o: test/balance_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
 
