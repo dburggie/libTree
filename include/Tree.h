@@ -23,6 +23,8 @@ int tree_destroy(Tree tree); //frees this node and both subtrees
 int tree_splay(Tree node); //if success, node will be the tree root
 int tree_splice(Tree trunk, Tree branch, SubTreeType side);
 
+int tree_rotate(Tree node); //if success, node will be rotated with it's parent
+
 Tree tree_getByIndex(Tree root, int index);
 Tree tree_getRoot(Tree node);
 Tree tree_splayIndex(Tree root, int index); //splays and returns node at index

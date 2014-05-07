@@ -13,7 +13,7 @@ HDR = ./include/Tree.h ./include/TreePrivate.h
 OBJ1 = ${DIR}/Tree.o ${DIR}/tree_build.o ${DIR}/tree_destroy.o
 OBJ2 = ${DIR}/tree_getByIndex.o ${DIR}/tree_splay.o ${DIR}/tree_splice.o
 OBJ3 = ${DIR}/tree_splayIndex.o ${DIR}/tree_insertByIndex.o
-OBJ4 = ${DIR}/tree_getRoot.o ${DIR}/tree_balance.o
+OBJ4 = ${DIR}/tree_getRoot.o ${DIR}/tree_balance.o ${DIR}/tree_rotate.o
 OBJ = ${OBJ1} ${OBJ2} ${OBJ3} ${OBJ4}
 
 THDR = ${HDR} ./include/test.h
@@ -72,6 +72,12 @@ ${DIR}/tree_getRoot.o: src/tree_getRoot.c ${HDR}
 
 ${DIR}/tree_balance.o: src/tree_balance.c ${HDR}
 	${CC} -c -o $@ $<
+
+${DIR}/tree_rotate.o: src/tree_rotate.c ${HDR}
+	${CC} -c -o $@ $<
+
+
+
 
 ############### TEST SUITE ###############
 
