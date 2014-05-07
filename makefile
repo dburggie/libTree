@@ -21,7 +21,7 @@ TST1 = ${DIR}/test.o ${DIR}/init_test.o  ${DIR}/destroy_test.o
 TST2 = ${DIR}/splice_test.o ${DIR}/build_test.o
 TST3 = ${DIR}/getByIndex_test.o ${DIR}/splay_test.o
 TST4 = ${DIR}/splayIndex_test.o ${DIR}/getRoot_test.o
-TST5 = ${DIR}/balance_test.o
+TST5 = ${DIR}/balance_test.o ${DIR}/rotate_test.o
 TOBJ = ${TST1} ${TST2} ${TST3} ${TST4} ${TST5}
 TEXE = ${DIR}/testTree.x
 
@@ -123,6 +123,8 @@ ${DIR}/getRoot_test.o: test/getRoot_test.c ${THDR}
 ${DIR}/balance_test.o: test/balance_test.c ${THDR}
 	${CC} -O0 -c -o $@ $<
 
+${DIR}/rotate_test.o: test/rotate_test.c ${THDR}
+	${CC} -O0 -c -o $@ $<
 
 
 
